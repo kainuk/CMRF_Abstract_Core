@@ -1,8 +1,10 @@
 {
-    "name": "CiviMRF/CMRF_Abstract_Core",
+    "name": "civimrf/cmrf_abstract_core",
+    "type": "library",
+    "description": "Remote access to CiviCRM",
     "autoload": {
-        "psr-0" : {
-            "CMRF" : "CMRF"
+        "psr-4" : {
+            "CMRF\\" : "src"
         }
     }
 }
