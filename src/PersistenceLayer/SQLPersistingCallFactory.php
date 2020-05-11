@@ -13,11 +13,13 @@ use CMRF\Core\AbstractCall;
 use mysqli;
 
 class SQLPersistingCallFactory extends CallFactory {
-  
+
   /** @var mysqli */
   protected $connection;
   /** @var string */
   protected $table_name;
+
+  private static $call_cache = array();
 
   static function schema() {
     return array(
@@ -118,9 +120,12 @@ class SQLPersistingCallFactory extends CallFactory {
 
   /** @return \CMRF\Core\Call */
   public function createOrFetch($connector_id, $core, $entity, $action, $parameters, $options, $callback) {
+    $hash = AbstractCall::getHashFromParams($entity,$action,$parameters,$options);
+    if(key_exists($hash,SQLPersistingCallFactory::$call_cache)) {
+      return SQLPersistingCallFactory::$call_cache[$hash];
+    }
     if(!empty($options['cache'])) {
       $today = new \DateTime();
-      $hash = AbstractCall::getHashFromParams($entity,$action,$parameters,$options);
       $stmt=$this->connection->prepare("select * from {$this->table_name} where request_hash = ? and connector_id = ? and cached_until > ? limit 1");
       $stmt->bind_param("sss",$hash,$connector_id, $today->format('Y-m-d H:i:s'));
       $stmt->execute();
@@ -180,6 +185,9 @@ class SQLPersistingCallFactory extends CallFactory {
       $retrycount=$call->getRetryCount();
       $stmt->bind_param("sssssii",$status,$reply,$reply_date,$scheduled_date,$cache_date,$retrycount,$id);
       $stmt->execute();
+      if($status=='DONE') {
+        SQLPersistingCallFactory::$call_cache[$call->getHash()] = $call;
+      }
     }
 
   }

@@ -75,7 +75,7 @@ abstract class Core {
   public function executeCall(Call $call) {
     if ($call->getStatus() == Call::STATUS_DONE) {
       // this seems to be cached
-      return $call;
+      return $call->getReply();
     } else {
       $connection = $this->getConnection($call->getConnectorID());
       $reply = $connection->executeCall($call);

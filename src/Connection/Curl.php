@@ -24,7 +24,7 @@ class Curl extends Connection {
 
   /**
    * execute the given call synchroneously
-   * 
+   *
    * return call status
    */
   public function executeCall(Call $call) {
