@@ -1,7 +1,24 @@
 {
-    "name": "civimrf/cmrf_abstract_core",
+    "name": "kainuk/cmrf_abstract_core",
     "type": "library",
     "description": "Remote access to CiviCRM",
+    "keywords": ["civicrm","rest","civimr"],
+    "homepage": "https://github.com/kainuk/CMRF_Abstract_Core",
+    "license": "GNU AFFERO GENERAL PUBLIC LICENSE",
+    "authors": [
+        {
+            "name": "Jaap Jansma",
+            "email": "jaap.jansma@civicoop.org"
+        },
+        {
+            "name": "Björn Endres",
+            "homepage": "https://github.com/bjendres"
+        },
+        {
+            "name" : "Jen Schuppe",
+            "homepage": "https://github.com/jensschuppe"
+        }
+    ],
     "autoload": {
         "psr-4" : {
             "CMRF\\" : "src"
